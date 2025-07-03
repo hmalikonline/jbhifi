@@ -21,14 +21,16 @@ public class WeatherProvider : IWeatherProvider
     public async Task<Weather?> GetWeatherAsync(Location location)
     {
         var weatherProviderAPIBaseURL = configuration.GetSection("OpenWeatherMap").GetValue<string>("BaseAPIURL") ?? throw new ApplicationException("Open weather map provider API url isn't configured");
-        string[] weatherProviderAPIKeys = configuration.GetSection("OpenWeatherMap").GetValue<string[]>("APIKeys") ?? throw new ApplicationException("Open weather map provider API keys aren't configured"); ;
+                
+        var weatherProviderAPIKeys = configuration.GetSection("Openweathermap:APIKeys").Get<List<string>>() ?? throw new ApplicationException("Open weather map provider API keys aren't configured"); ;
+
         if (!weatherProviderAPIKeys.Any()) throw new ApplicationException("Open weather map provider API keys aren't configured"); ;
 
         var httpClient = httpClientFactory.CreateClient();
         httpClient.BaseAddress = new Uri(weatherProviderAPIBaseURL);
         
         //call api
-        var response = await httpClient.GetAsync($"?q={location.City},{location.Country}&appid={weatherProviderAPIKeys[0]}");
+        var response = await httpClient.GetAsync($"?q={location.City},{location.Country}&appid={weatherProviderAPIKeys.First()}");
 
         if (response.IsSuccessStatusCode)
         {

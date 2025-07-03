@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Http.HttpResults;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddHttpClient();
+
 //Add dependencies
 builder.Services.AddScoped<IWeatherProvider, WeatherProvider>();
 builder.Services.AddScoped<IWeatherService, WeatherService>();
