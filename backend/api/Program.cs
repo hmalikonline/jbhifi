@@ -14,7 +14,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 //add rate limiting scheme for api key
-builder.Services.AddRateLimitingSchemeByApiKey();
+builder.Services.AddRateLimitingSchemeByApiKey(builder.Configuration);
 
 var app = builder.Build();
 
