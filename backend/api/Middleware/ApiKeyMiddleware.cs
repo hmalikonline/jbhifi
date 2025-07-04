@@ -1,6 +1,6 @@
 public class ApiKeyMiddleware
 {
-    private const string API_KEY_HEADER_NAME = "X-API-KEY";
+    public static string API_KEY_HEADER_NAME = "X-API-KEY";
     private readonly RequestDelegate next;
     private readonly IConfiguration configuration;
     private readonly ILogger<ApiKeyMiddleware> logger;
