@@ -14,7 +14,9 @@ public static class ApiKeyRateLimitingScheme
         RateLimitConfiguration? rateLimitConfig = configuration
                                                         .GetSection("ApplicationConfiguration:RateLimit")
                                                         .Get<RateLimitConfiguration>() ?? throw new ApplicationException("Rate limiting options haven't been configured");
-                
+
+        var rateLimitTimeWindowInSeconds = TimeSpan.FromSeconds(rateLimitConfig.TimeWindowInSeconds);
+
         services.AddRateLimiter(options =>
         {
             //applying global rate limiting policy for all endpoints
@@ -26,9 +28,19 @@ public static class ApiKeyRateLimitingScheme
                         AutoReplenishment = true,
                         PermitLimit = rateLimitConfig.MaxRequests, //from config
                         QueueLimit = 0,
-                        Window = TimeSpan.FromSeconds(rateLimitConfig.TimeWindowInSeconds) //from config
+                        Window = rateLimitTimeWindowInSeconds //from config
                     }));
+
+            options.OnRejected = async (context, cancellationToken) =>
+            {
+                // Custom rejection handling logic
+                context.HttpContext.Response.StatusCode = StatusCodes.Status429TooManyRequests;
+                context.HttpContext.Response.Headers["Retry-After"] = rateLimitTimeWindowInSeconds.TotalSeconds.ToString();
+
+                await context.HttpContext.Response.WriteAsync($"Rate limit exceeded. Please try again later after {rateLimitTimeWindowInSeconds.ToString()}.", cancellationToken);
+            };                    
         });
+        
 
         return services;
     }
