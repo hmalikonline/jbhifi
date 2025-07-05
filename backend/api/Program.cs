@@ -28,9 +28,9 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 //inject custom middleware to check for api keys
-//app.UseMiddleware<ApiKeyMiddleware>();
+app.UseMiddleware<ApiKeyMiddleware>();
 //inject rate limiter to check for rate limits
-//app.UseRateLimiter();
+app.UseRateLimiter();
 
 app.MapGet("/weatherforecast", async (string city, string country, IWeatherService service) =>
 {
