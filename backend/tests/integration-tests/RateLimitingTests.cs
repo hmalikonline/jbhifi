@@ -11,6 +11,7 @@ public class RateLimitingTests : IClassFixture<CustomWebApplicationFactory>
     private readonly HttpClient httpClient;
     private const string CITY = "Melbourne";
     private const string COUNTRY = "au";
+    private string[] apiKeyList = TestConstants.ApiKeys.Split(","); //get test api keys 
 
 
     public RateLimitingTests(CustomWebApplicationFactory factory)
@@ -19,11 +20,11 @@ public class RateLimitingTests : IClassFixture<CustomWebApplicationFactory>
         this.httpClient = factory.CreateClient();
     }
 
-    private async Task<HttpStatusCode> Call_API_After_A_Delay(int delayInSeconds)
+    private async Task<HttpStatusCode> Call_API_After_A_Delay(int delayInSeconds, string apiKeyToUse)
     {
         var request = new HttpRequestMessage(HttpMethod.Get, $"/weatherforecast?city={CITY}&country={COUNTRY}");
-        var apiKeyList = TestConstants.ApiKeys.Split(","); //get test api keys 
-        request.Headers.Add("x-api-key", apiKeyList[0]);
+        
+        request.Headers.Add("x-api-key", apiKeyToUse);
 
         //if delay is specified, add delay
         if (delayInSeconds > 0)
@@ -31,7 +32,11 @@ public class RateLimitingTests : IClassFixture<CustomWebApplicationFactory>
 
         var response = await httpClient.SendAsync(request);
 
-        return response.StatusCode;        
+        var status = response.StatusCode;
+
+        response.Dispose();
+
+        return status;
     }
 
     [Fact]
@@ -39,14 +44,16 @@ public class RateLimitingTests : IClassFixture<CustomWebApplicationFactory>
     {
         var singleRequestInterval = (int)Math.Ceiling((double)TestConstants.RateLimit_TimeWindowInSeconds / TestConstants.RateLimit_MaxRequests);
 
+        var apiKeyToUse = apiKeyList[0]; //use the first key in the list
+
         //making 2 requests with a delay that's within acceptable rate limit
         //first request will be instant, subsequent requests will be delayed
-        var responseStatus = await Call_API_After_A_Delay(0); 
-        Assert.True(responseStatus == HttpStatusCode.OK); 
+        var responseStatus = await Call_API_After_A_Delay(0, apiKeyToUse);
+        Assert.True(responseStatus == HttpStatusCode.OK);
 
         //making 2nd request in twice the acceptable interval, to stay within the rate limit
-        responseStatus = await Call_API_After_A_Delay(singleRequestInterval*2);
-        Assert.True(responseStatus == HttpStatusCode.OK); 
+        responseStatus = await Call_API_After_A_Delay(singleRequestInterval * 2, apiKeyToUse);
+        Assert.True(responseStatus == HttpStatusCode.OK);
     }
 
     [Fact]
@@ -54,17 +61,19 @@ public class RateLimitingTests : IClassFixture<CustomWebApplicationFactory>
     {
         var singleRequestInterval = (int)Math.Ceiling((double)TestConstants.RateLimit_TimeWindowInSeconds / TestConstants.RateLimit_MaxRequests);
 
+        var apiKeyToUse = apiKeyList[1]; //use the second key in the list
+
         //making 2 requests 
         //1st request will be instant, subsequent requests will be delayed
-        var responseStatus = await Call_API_After_A_Delay(0); 
-        Assert.True(responseStatus == HttpStatusCode.OK); 
+        var responseStatus = await Call_API_After_A_Delay(0, apiKeyToUse);
+        Assert.True(responseStatus == HttpStatusCode.OK);
 
         //making 2nd request in half the acceptable interval, to cause the request rate go above rate limit
-        responseStatus = await Call_API_After_A_Delay((int)singleRequestInterval/2); 
+        responseStatus = await Call_API_After_A_Delay((int)singleRequestInterval / 2, apiKeyToUse);
         Assert.True(responseStatus == HttpStatusCode.TooManyRequests); //the second request should receive "too many requests" status
-       
+
     }
-    
-  
-             
+
+
+
 }
