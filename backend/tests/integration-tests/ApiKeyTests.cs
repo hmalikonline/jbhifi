@@ -4,7 +4,7 @@ using WeatherApp;
 
 namespace Weather.Tests;
 
-public class ApiIntegrationTests : IClassFixture<CustomWebApplicationFactory>
+public class ApiKeyTests : IClassFixture<CustomWebApplicationFactory>
 {
     private readonly WebApplicationFactory<Program> factory;
     private readonly HttpClient httpClient;
@@ -12,7 +12,7 @@ public class ApiIntegrationTests : IClassFixture<CustomWebApplicationFactory>
     private const string COUNTRY = "au";
 
 
-    public ApiIntegrationTests(CustomWebApplicationFactory factory)
+    public ApiKeyTests(CustomWebApplicationFactory factory)
     {
         this.factory = factory;
         this.httpClient = factory.CreateClient();
