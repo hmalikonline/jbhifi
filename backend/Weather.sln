@@ -5,24 +5,29 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Weather.App", "api\Weather.App.csproj", "{349A37C3-7040-434F-996A-7DA427F9592D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Weather.Tests", "tests\Weather.Tests.csproj", "{5DCA6816-C687-4307-80AE-494AEC9620FB}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{7A46A3ED-B2BA-4700-9078-06DD62296BF0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Weather.IntegrationTests", "tests\integration-tests\Weather.IntegrationTests.csproj", "{81FE140E-DDCB-4357-9046-667CB622F377}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{349A37C3-7040-434F-996A-7DA427F9592D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{349A37C3-7040-434F-996A-7DA427F9592D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{349A37C3-7040-434F-996A-7DA427F9592D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{349A37C3-7040-434F-996A-7DA427F9592D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5DCA6816-C687-4307-80AE-494AEC9620FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5DCA6816-C687-4307-80AE-494AEC9620FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5DCA6816-C687-4307-80AE-494AEC9620FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5DCA6816-C687-4307-80AE-494AEC9620FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81FE140E-DDCB-4357-9046-667CB622F377}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81FE140E-DDCB-4357-9046-667CB622F377}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81FE140E-DDCB-4357-9046-667CB622F377}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81FE140E-DDCB-4357-9046-667CB622F377}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{81FE140E-DDCB-4357-9046-667CB622F377} = {7A46A3ED-B2BA-4700-9078-06DD62296BF0}
 	EndGlobalSection
 EndGlobal

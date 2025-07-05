@@ -28,9 +28,9 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 //inject custom middleware to check for api keys
-app.UseMiddleware<ApiKeyMiddleware>();
+//app.UseMiddleware<ApiKeyMiddleware>();
 //inject rate limiter to check for rate limits
-app.UseRateLimiter();
+//app.UseRateLimiter();
 
 app.MapGet("/weatherforecast", async (string city, string country, IWeatherService service) =>
 {
@@ -39,12 +39,12 @@ app.MapGet("/weatherforecast", async (string city, string country, IWeatherServi
         City = city,
         Country = country
     };
-    var weather = await service.GetWeatherAsync(location);
+   // var weather = await service.GetWeatherAsync(location);
 
-    // var weather = new Weather
-    // {
-    //     Description = "test"
-    // };
+    var weather = new Weather
+    {
+        Description = "test"
+    };
 
     if (weather == null)
         return Results.NotFound();
@@ -57,3 +57,8 @@ app.MapGet("/weatherforecast", async (string city, string country, IWeatherServi
 
 app.Run();
 
+namespace WeatherApp
+{
+    public partial class Program
+    { }
+}
