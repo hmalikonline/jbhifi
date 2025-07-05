@@ -39,12 +39,12 @@ app.MapGet("/weatherforecast", async (string city, string country, IWeatherServi
         City = city,
         Country = country
     };
-    //var weather = await service.GetWeatherAsync(location);
+    var weather = await service.GetWeatherAsync(location);
 
-    var weather = new Weather
-    {
-        Description = "test"
-    };
+    // var weather = new Weather
+    // {
+    //     Description = "test"
+    // };
 
     if (weather == null)
         return Results.NotFound();

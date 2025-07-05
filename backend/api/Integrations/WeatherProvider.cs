@@ -20,17 +20,21 @@ public class WeatherProvider : IWeatherProvider
     }
     public async Task<Weather?> GetWeatherAsync(Location location)
     {
-        var weatherProviderAPIBaseURL = configuration.GetSection("OpenWeatherMap").GetValue<string>("BaseAPIURL") ?? throw new ApplicationException("Open weather map provider API url isn't configured");
-                
-        var weatherProviderAPIKeys = configuration.GetSection("Openweathermap:APIKeys").Get<List<string>>() ?? throw new ApplicationException("Open weather map provider API keys aren't configured"); ;
+        var weatherProviderAPIBaseURL = configuration.GetSection("OpenWeatherMap").GetValue<string>("BaseAPIURL") ?? throw new ApplicationException("Open weather map provider API url isn't configured");       
+
+        var apiKeys = configuration.GetSection("Openweathermap:APIKeys").Get<string>() ?? throw new ApplicationException("Open weather map provider API keys aren't configured. Please provide one or more keys separated with comma."); ;
+        string[] weatherProviderAPIKeys = apiKeys.Split(",");
 
         if (!weatherProviderAPIKeys.Any()) throw new ApplicationException("Open weather map provider API keys aren't configured"); ;
+
+        //for now spread the usage of keys randomly, this can be improved by implementing a more sophisticated mechanism such as round robin for even spread of key usage
+        int keyIndexToBeConsumed = Random.Shared.Next(weatherProviderAPIKeys.Length);
 
         var httpClient = httpClientFactory.CreateClient();
         httpClient.BaseAddress = new Uri(weatherProviderAPIBaseURL);
         
         //call api
-        var response = await httpClient.GetAsync($"?q={location.City},{location.Country}&appid={weatherProviderAPIKeys.First()}");
+        var response = await httpClient.GetAsync($"?q={location.City},{location.Country}&appid={weatherProviderAPIKeys[keyIndexToBeConsumed]}");
 
         if (response.IsSuccessStatusCode)
         {
