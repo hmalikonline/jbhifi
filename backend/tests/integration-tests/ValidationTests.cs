@@ -103,6 +103,21 @@ public class ValidationTests : IClassFixture<CustomWebApplicationFactory>
 
     }
 
+    [Fact]
+    public async Task Verify_We_Get_NOT_FOUND_For_Valid_But_Unknown_Location()
+    {
+        var apiKeyList = TestConstants.ApiKeys.Split(","); //get test api keys         
+        
+        var city = "Electricity"; //valid, but unknown city
+        var country = "AU";
+
+        var request = new HttpRequestMessage(HttpMethod.Get, $"/weatherforecast?city={city}&country={country}");
+        request.Headers.Add("x-api-key", apiKeyList[0]);
+        var response = await httpClient.SendAsync(request);
+
+        Assert.Equal(StatusCodes.Status404NotFound, (int)response.StatusCode); //not found
+    }    
+
     private async Task<HttpStatusCode> CallAPI(string apiKeyToUse, string city, string country)
     {
         var request = new HttpRequestMessage(HttpMethod.Get, $"/weatherforecast?city={city}&country={country}");
