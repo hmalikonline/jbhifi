@@ -1,3 +1,4 @@
+using FluentValidation;
 using Microsoft.AspNetCore.Http.HttpResults;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,6 +17,9 @@ builder.Services.AddSwaggerGen();
 //add rate limiting scheme for api key
 builder.Services.AddRateLimitingSchemeByApiKey(builder.Configuration);
 
+//add validation
+builder.Services.AddValidation();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -32,14 +36,17 @@ app.UseMiddleware<ApiKeyMiddleware>();
 //inject rate limiter to check for rate limits
 app.UseRateLimiter();
 
-app.MapGet("/weatherforecast", async (string city, string country, IWeatherService service) =>
+app.MapGet("/weatherforecast", async (string city, string country, IWeatherService service, IValidator<Location> validator) =>
 {
-    var location = new Location
-    {
-        City = city,
-        Country = country
-    };
-   // var weather = await service.GetWeatherAsync(location);
+    var location = new Location(city, country);
+
+    //validating input
+    var validationResult = validator.Validate(location);
+    if (!validationResult.IsValid)
+        return Results.ValidationProblem(validationResult.ToDictionary());
+
+
+    //var weather = await service.GetWeatherAsync(location);
 
     var weather = new Weather
     {

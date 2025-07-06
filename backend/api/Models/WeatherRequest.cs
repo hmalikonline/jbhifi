@@ -1,0 +1,1 @@
+public record WeatherRequest(string City, string Country);
