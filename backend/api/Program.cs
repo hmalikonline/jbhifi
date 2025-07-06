@@ -46,17 +46,17 @@ app.MapGet("/weatherforecast", async (string city, string country, IWeatherServi
         return Results.ValidationProblem(validationResult.ToDictionary());
 
 
-    //var weather = await service.GetWeatherAsync(location);
+    var weather = await service.GetWeatherAsync(location);
 
-    var weather = new Weather
-    {
-        Description = "test"
-    };
+    // var weather = new Weather
+    // {
+    //     Description = "test"
+    // };
 
     if (weather == null)
         return Results.NotFound();
 
-    return Results.Ok(weather.Description); //return only the weather description
+    return Results.Ok(weather); //return only the weather description
 
 })
 .WithName("GetWeatherForecast")

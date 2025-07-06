@@ -5,9 +5,9 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Weather.App", "api\Weather.App.csproj", "{349A37C3-7040-434F-996A-7DA427F9592D}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{7A46A3ED-B2BA-4700-9078-06DD62296BF0}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{4F5DB3DE-C6DC-4D42-8B2A-92FD6C92CD73}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Weather.IntegrationTests", "tests\integration-tests\Weather.IntegrationTests.csproj", "{81FE140E-DDCB-4357-9046-667CB622F377}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationTests", "tests\integration-tests\IntegrationTests.csproj", "{D7E12D58-91D9-4FBF-91BE-749CBB514DA6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,15 +19,15 @@ Global
 		{349A37C3-7040-434F-996A-7DA427F9592D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{349A37C3-7040-434F-996A-7DA427F9592D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{349A37C3-7040-434F-996A-7DA427F9592D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{81FE140E-DDCB-4357-9046-667CB622F377}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{81FE140E-DDCB-4357-9046-667CB622F377}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{81FE140E-DDCB-4357-9046-667CB622F377}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{81FE140E-DDCB-4357-9046-667CB622F377}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7E12D58-91D9-4FBF-91BE-749CBB514DA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7E12D58-91D9-4FBF-91BE-749CBB514DA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7E12D58-91D9-4FBF-91BE-749CBB514DA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7E12D58-91D9-4FBF-91BE-749CBB514DA6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{81FE140E-DDCB-4357-9046-667CB622F377} = {7A46A3ED-B2BA-4700-9078-06DD62296BF0}
+		{D7E12D58-91D9-4FBF-91BE-749CBB514DA6} = {4F5DB3DE-C6DC-4D42-8B2A-92FD6C92CD73}
 	EndGlobalSection
 EndGlobal
