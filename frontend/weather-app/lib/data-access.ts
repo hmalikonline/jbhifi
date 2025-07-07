@@ -15,31 +15,38 @@ export const fetchWeather = async (weatherRequest: WeatherRequest): Promise<Weat
     const apiEndPointUrl = `${process.env.API_BASE_URL}/weatherforecast?city=${weatherRequest.city}&country=${weatherRequest.country}`
 
     // Add a fake delay to make waiting noticeable.
+    
     // await new Promise(resolve => {
     //   setTimeout(resolve, 2000);
     // });
+    // //return {description:"Sunny and happy"};
+    // const statusValue:number = 429;
+    // switch(statusValue)
+    //         {
+    //             case 429:
+    //                 throw new Error("Sorry, you'll have to wait before you can check weather again.");
+    //             case 400:
+    //                 throw new Error("Please ensure you've entered a known city in the country you've selected.");
+    //             case 404:
+    //                 throw new Error("Looks like weather isn't available for your selected city/country. You can check weather for another location.");
+    //             default:
+    //                 throw new Error("Apologies, we aren't able to check the weather. Please try again.");
+    //         }    
     
-    // const status:number = 429;
-    // // switch(status)
-    // //         {
-    // //             case 429:
-    // //                 throw new Error("Sorry, you'll have to wait before you can check weather again.");
-    // //             case 400:
-    // //                 throw new Error("Please ensure you've entered a known city in the country you've selected.");
-    // //             case 404:
-    // //                 throw new Error("Looks like weather isn't available for your selected city/country. You can check weather for another location.");
-    // //             default:
-    // //                 throw new Error("Apologies, we aren't able to check the weather. Please try again.");
-    // //         }    
-
-    // return {description:"Sunny and happy"};
+    
     let response;
     let status:number = 0;
+    let rateLimit_Requests: number|null;
+    let rateLimit_WindowInSeconds: number|null;
+
     try{
             response = await fetch(apiEndPointUrl, request);
 
             console.log(response); //log response for investigation
 
+            rateLimit_Requests = response.headers.get('Requests_Allowed') as number|null; 
+            rateLimit_WindowInSeconds = response.headers.get('Retry-After') as number|null; 
+            
             if(response.ok)
             {
                 var weather: Weather = await response.json();

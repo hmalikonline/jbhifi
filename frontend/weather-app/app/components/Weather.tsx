@@ -1,6 +1,6 @@
 'use client'
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { getWeather, GetWeatherFormState } from "../handlers/weather-handler";
 
 const Weather = () => {
@@ -15,38 +15,60 @@ const Weather = () => {
 
     return(
         <>
-        <div>Hi, welcome to the Weather App! You can check current weather at any location.</div>
-        <form action={formAction}>
-            <div>
+        <div>
+            Hi, welcome to the Weather App! Here you can check current weather at any of favourite locations.
+        </div>
+        <form action={formAction} className="form-container">
+            <div className="form-row">
                 <label htmlFor="city">City</label>
-                <input id="city" name="city" type="text" defaultValue={formState.data?.city}/>
+                <input 
+                    id="city" 
+                    name="city" 
+                    type="text" 
+                    className="input-text"
+                    defaultValue={formState.data?.city}
+                    placeholder="e.g. Melbourne"
+                    required
+                />
             </div>
-            <div>
-                <label htmlFor="city">Country</label>
-                <select id="country" name="country" >
+            <div className="form-row">
+                <label htmlFor="city">Country</label>                
+                <select 
+                    id="country" 
+                    name="country" 
+                    className="select-dropdown"
+                    required
+                    defaultValue={formState.data?.country} 
+                    key={formState.data?.country}                    
+                >
                     <option value="au">Australia</option>
                     <option value="uk">United Kingdom</option>                    
                 </select>
             </div>
-            <button disabled={isPending}>{isPending ? 'Checking...': 'Check Weather'}</button>
-            <div>Please note that you can check weather at your favourite locations 5 times in an hour.</div>
+            <button 
+                disabled={isPending}
+                className="btn-primary form-row"
+                >
+                {isPending ? 'Checking...': 'Check Weather'}
+            </button>                   
+        <div style={{fontSize: '0.8rem'}}>* Please note that you can check weather at your favourite locations 5 times in an hour.</div>
             {
                 !isPending && formState.weather !== null && 
-                <div>
-                    The weather in {formState.data?.city},{formState.data?.country} is {formState.weather.description}
+                <div className="message-primary form-row">
+                    The weather in {formState.data?.city}, {formState.data?.country} is &quot;{formState.weather.description}&quot;
                 </div>
             }
             {
                 !isPending && formState.weather == null && formState.errors.length > 0 && 
-                <div>
+                <div className="message-error form-row">
                     {
                     formState.errors.map((e, index) => {
                         return <div key={index}>{e}</div>
                     })
                     }
                 </div>
-            }
-        </form>
+            }     
+            </form>   
         </>
     )
 }
