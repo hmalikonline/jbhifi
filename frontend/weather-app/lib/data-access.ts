@@ -65,7 +65,7 @@ export const fetchWeather = async (weatherRequest: WeatherRequest): Promise<Weat
         switch(status)
         {
             case 429:
-                throw new Error("Sorry, you'll have to wait before you can check weather again.");
+                throw new Error("Sorry you've used your quota. You'll have to wait before you can check weather again.");
             case 400:
                 throw new Error("Please ensure you've entered a valid city.");
             case 404:

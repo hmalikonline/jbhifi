@@ -16,7 +16,7 @@ const Weather = () => {
     return(
         <>
         <div>
-            Hi, welcome to the Weather App! Here you can check current weather at any of favourite locations.
+            Hi, welcome to the Weather App! Here you can check current weather at any of your favourite locations.
         </div>
         <form action={formAction} className="form-container">
             <div className="form-row">
@@ -51,7 +51,7 @@ const Weather = () => {
                 >
                 {isPending ? 'Checking...': 'Check Weather'}
             </button>                   
-        <div style={{fontSize: '0.8rem'}}>* Please note that you can check weather at your favourite locations 5 times in an hour.</div>
+        <div style={{fontSize: '0.8rem'}}>* <span style={{fontWeight: 'bold'}}>Please note:</span> You can check the weather up to 5 times per hour. Use your quota wisely!</div>
             {
                 !isPending && formState.weather !== null && 
                 <div className="message-primary form-row">
