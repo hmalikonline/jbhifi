@@ -5,13 +5,10 @@ import { WeatherRequest } from "@/lib/dtos"
 import { Weather } from "@/lib/entities"
 
 
-interface OperationState {
-    success: boolean,
-    errors: string[]
-}
-
-export type GetWeatherFormState = OperationState & {    
-    weather: Weather|null
+export type GetWeatherFormState = {    
+    weather: Weather|null,
+    errors: string[],
+    data: WeatherRequest|null
 }
 
 export const getWeather = async (prevState: any, formData: FormData) : Promise<GetWeatherFormState> => {
@@ -21,20 +18,29 @@ export const getWeather = async (prevState: any, formData: FormData) : Promise<G
         country: formData.get("country") as string
     }
     
-    let errors: GetWeatherFormState['errors'] = [];
-    let weather:Weather|null = null;
+    console.log(weatherRequest);
+
+    let result:GetWeatherFormState = {
+        weather: null,
+        errors: [],
+        data: weatherRequest
+    };
+
+    //TODO: validate form entries
+
+    //stop further processing if there are validation errors
+    if (result.errors.length > 0)
+        return result;
 
     //fetch weather from data access layer
     try{
-        weather = await fetchWeather(weatherRequest);
+        result.weather = await fetchWeather(weatherRequest);
     }
     catch (ex) {
-        errors.push(ex instanceof Error ? ex.message : String(ex));        
+        console.log(ex)
+        result.errors.push(ex instanceof Error ? ex.message : String(ex));        
     }
 
-    return {
-        errors:errors,
-        success: true,
-        weather: weather
-    };
+    return result;
+     
 }
