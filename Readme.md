@@ -7,6 +7,7 @@ Please allow me to call this app "The Weather App"!
 The app has been developed to be configurable and secure.
 
 - The app has a clean mobile-first UI that has a touch of JB Hifi branding 😊, with black and yellow colours.
+- For best user experience I've made entry of country via a dropdown selection, rather than free text. Additionaly it maps country name with country code behind the scenes that is required for OpenWeather API calls. For this assessment, I've pre-configured the app with 2 countries, defaulting to Australia.
 - It has a basic API key scheme of 7 character length keys.
 - The API has been pre-configured with 5 API keys. See configuration file. 
 - The app has been pre-configured to rate limit 5 weather reports an hour. See configuration file. 
