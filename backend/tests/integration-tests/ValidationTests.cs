@@ -6,12 +6,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Testing;
 using WeatherApp;
 
-public class ValidationTests : IClassFixture<CustomWebApplicationFactory>
+public class ValidationTests : IClassFixture<CustomWebApplicationFactory_WithOut_RateLimits>
 {
     private readonly WebApplicationFactory<Program> factory;
     private readonly HttpClient httpClient;
 
-    public ValidationTests(CustomWebApplicationFactory factory)
+    public ValidationTests(CustomWebApplicationFactory_WithOut_RateLimits factory)
     {
         this.factory = factory;
         this.httpClient = factory.CreateClient();

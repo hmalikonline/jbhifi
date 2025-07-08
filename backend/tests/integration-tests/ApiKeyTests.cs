@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Testing;
 using WeatherApp;
 
-public class ApiKeyTests : IClassFixture<CustomWebApplicationFactory>
+public class ApiKeyTests : IClassFixture<CustomWebApplicationFactory_WithOut_RateLimits>
 {
     private readonly WebApplicationFactory<Program> factory;
     private readonly HttpClient httpClient;
@@ -10,7 +10,7 @@ public class ApiKeyTests : IClassFixture<CustomWebApplicationFactory>
     private const string COUNTRY = "au";
 
 
-    public ApiKeyTests(CustomWebApplicationFactory factory)
+    public ApiKeyTests(CustomWebApplicationFactory_WithOut_RateLimits factory)
     {
         this.factory = factory;
         this.httpClient = factory.CreateClient();

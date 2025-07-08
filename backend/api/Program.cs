@@ -31,10 +31,13 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+//checking rate limiting configuration
+var maxRequests = app.Configuration.GetValue<string?>("ApplicationConfiguration:RateLimit:MaxRequests");
 //inject custom middleware to check for api keys
 app.UseMiddleware<ApiKeyMiddleware>();
 //inject rate limiter to check for rate limits
-app.UseRateLimiter();
+if(!String.IsNullOrEmpty(maxRequests) && Int32.Parse(maxRequests) > 0) //this is used to bypass rate limiting during integration tests that don't check limiting
+    app.UseRateLimiter();
 
 app.MapGet("/weatherforecast", async (string city, string country, IWeatherService service, IValidator<Location> validator) =>
 {
