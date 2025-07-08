@@ -4,14 +4,15 @@
 
 Please allow me to call this app "The Weather App"!
 
-The app has been developed to be configurable and secure.
+The app has been developed to be configurable and secure.  
 
 - The app has a clean mobile-first UI that has a touch of JB Hifi branding 😊, with black and yellow colours.
 - For best user experience I've made entry of country via a dropdown selection, rather than free text. Additionaly it maps country name with country code behind the scenes that is required for OpenWeather API calls. For this assessment, I've pre-configured the app with 2 countries, defaulting to Australia.
 - It has a basic API key scheme of 7 character length keys.
 - The API has been pre-configured with 5 API keys. See configuration file. 
 - The app has been pre-configured to rate limit 5 weather reports an hour. See configuration file. 
-- The app has a basic mechanism to spread the usage among multiple OpenWeather API keys by randomly selecting one when making a call. 
+- The app has a basic mechanism to spread the usage among multiple OpenWeather API keys by randomly selecting one when making a call.
+- For this exercise, I've used custom CSS rather than CSS libraries such as Bootstrap.
 
 # Security
 
@@ -47,7 +48,7 @@ Please follow the below steps to run the integration tests in powershell. You ca
 - Edit "run-api.ps1" powershell file in your favourite text editor
 - Similar to step for integration tests, replace placeholder dummy values of KEY1,KEY2 with real OpenWeather API keys. NOTE: There shouldn't be space between the comma separated keys. You can also supply a single key.
 - Save changes.
-- Run the powershell "run-api.ps1" file.
+- Run the powershell "run-api.ps1" file in the command window. This will start and run the backend api.
 
 ## Running Frontend React App
 
@@ -59,7 +60,7 @@ Once API is up and running, note down the URL of API in the powershell window.
 - Replace API_URL with the url of the API running on your machine - the one you noted before.
 - NOTE: An API key has been pre-configured in the file. Please don't change it.
 - Save changes.
-- Run the powershell "run-reactapp.ps1" file.
+- Run the powershell "run-reactapp.ps1" file in the command window. This will start and run the frontend app.
 - Click on the link in the window, to launch the Weather App.
 
 ### Testing rate limiting by key
@@ -70,8 +71,9 @@ With Weather App up and running, once you've hit the rate limit of 5 weather rep
 - Press Ctrl+C to terminate the app server.
 - Edit "run-reactapp.ps1" powershell file in your favourite text editor.
 - Replace swap API key values with commented one.
-- Run the powershell "run-reactapp.ps1" file.
+- Run the powershell "run-reactapp.ps1" file in the command window.
 - Click on the link in the window, to launch the Weather App.
 - Now, you should be able to again check the weather.  
 
 
+NOTE: Please let me know if you wish to add any functionality to the app, for example logging.
