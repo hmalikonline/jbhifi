@@ -26,11 +26,26 @@ export const getWeather = async (prevState: any, formData: FormData) : Promise<G
         data: weatherRequest
     };
 
-    //TODO: validate form entries
+    //validate form entries
+
+    //remove any spaces on either side, if present
+    weatherRequest.city = weatherRequest.city.trimStart().trimEnd();
+
+    if(weatherRequest.city === "")
+        result.errors.push("Please provide a valid city.")
+
+    const regex = /^[a-zA-Z ]+$/;
+
+    if (!regex.test(weatherRequest.city)) {
+        result.errors.push("Please provide a valid city. City must contain only letters and spaces.")
+    }
+    
 
     //stop further processing if there are validation errors
     if (result.errors.length > 0)
         return result;
+
+    //remove any trailing 
 
     //fetch weather from data access layer
     try{
