@@ -37,7 +37,7 @@ public static class ApiKeyRateLimitingScheme
                 context.HttpContext.Response.StatusCode = StatusCodes.Status429TooManyRequests;
                 context.HttpContext.Response.Headers["Retry-After"] = rateLimitTimeWindowInSeconds.TotalSeconds.ToString();
 
-                await context.HttpContext.Response.WriteAsync($"Rate limit exceeded. Please try again later after {rateLimitTimeWindowInSeconds.ToString()}.", cancellationToken);
+                await context.HttpContext.Response.WriteAsync($"Looks like you've used your quota of {rateLimitConfig.MaxRequests} weather reports an {(rateLimitConfig.TimeWindowInSeconds == 5 ? "hour": rateLimitConfig.TimeWindowInSeconds + " seconds")}. Please check again later.", cancellationToken);
             };                    
         });
         
