@@ -36,16 +36,12 @@ export const fetchWeather = async (weatherRequest: WeatherRequest): Promise<Weat
     
     let response;
     let status:number = 0;
-    let rateLimit_Requests: number|null;
-    let rateLimit_WindowInSeconds: number|null;
+    let message:string;
 
     try{
             response = await fetch(apiEndPointUrl, request);
 
             console.log(response); //log response for investigation
-
-            rateLimit_Requests = response.headers.get('Requests_Allowed') as number|null; 
-            rateLimit_WindowInSeconds = response.headers.get('Retry-After') as number|null; 
             
             if(response.ok)
             {
@@ -53,6 +49,7 @@ export const fetchWeather = async (weatherRequest: WeatherRequest): Promise<Weat
                 return weather;            
             }else{
                 status = response.status;
+                message = await response.text();
             }
         }
         catch (ex)
@@ -65,7 +62,7 @@ export const fetchWeather = async (weatherRequest: WeatherRequest): Promise<Weat
         switch(status)
         {
             case 429:
-                throw new Error("Sorry you've used your quota. You'll have to wait before you can check weather again.");
+                throw new Error(message??"Sorry you've used your quota. You'll have to wait before you can check weather again.");
             case 400:
                 throw new Error("Please ensure you've entered a valid city.");
             case 404:

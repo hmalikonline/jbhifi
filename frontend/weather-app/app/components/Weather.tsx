@@ -2,6 +2,7 @@
 
 import { useActionState, useState } from "react";
 import { getWeather, GetWeatherFormState } from "../handlers/weather-handler";
+import { countryList } from "@/lib/data";
 
 const Weather = () => {
 
@@ -12,6 +13,11 @@ const Weather = () => {
     };
 
     const [formState, formAction, isPending] = useActionState(getWeather, inititalFormState)
+
+    const getCountryName = (code: string) => {
+        const country = countryList.find(c => c.code === code);
+        return country ? country.name : code;
+    }    
 
     return(
         <>
@@ -41,8 +47,11 @@ const Weather = () => {
                     defaultValue={formState.data?.country} 
                     key={formState.data?.country}                    
                 >
-                    <option value="au">Australia</option>
-                    <option value="uk">United Kingdom</option>                    
+                    {
+                        countryList.map((country) => {
+                            return (<option key={country.code} value={country.code}>{country.name}</option>)
+                        })
+                    }
                 </select>
             </div>
             <button 
@@ -50,12 +59,11 @@ const Weather = () => {
                 className="btn-primary form-row"
                 >
                 {isPending ? 'Checking...': 'Check Weather'}
-            </button>                   
-        <div style={{fontSize: '0.8rem'}}>* <span style={{fontWeight: 'bold'}}>Please note:</span> You can check the weather up to 5 times per hour. Use your quota wisely!</div>
+            </button>     
             {
                 !isPending && formState.weather !== null && 
                 <div className="message-primary form-row">
-                    The weather in {formState.data?.city}, {formState.data?.country} is &quot;{formState.weather.description}&quot;
+                    The weather in {formState.data?.city}, {formState.data?.country ? getCountryName(formState.data.country) : ""} is &quot;{formState.weather.description}&quot;
                 </div>
             }
             {

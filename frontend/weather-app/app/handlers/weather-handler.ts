@@ -37,7 +37,7 @@ export const getWeather = async (prevState: any, formData: FormData) : Promise<G
     const regex = /^[a-zA-Z ]+$/;
 
     if (!regex.test(weatherRequest.city)) {
-        result.errors.push("Please provide a valid city. City must contain only letters and spaces.")
+        result.errors.push("Please provide a valid city that has only letters and spaces.")
     }
     
 
